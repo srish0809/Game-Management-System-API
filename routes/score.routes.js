@@ -1,6 +1,7 @@
 const express = require('express');
 const scoreController = require('../controllers/score.controller');
 const authMiddleware = require('../middleware/auth.middleware');
+const rbacMiddleware = require('../middleware/rbac.middleware');
 const router = express.Router();
 
 /**
@@ -39,7 +40,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', authMiddleware, scoreController.addScore);
+router.post('/', authMiddleware, rbacMiddleware('Player'), addScore);
 
 /**
  * @swagger

@@ -40,7 +40,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', authMiddleware, gameController.createGame);
+router.post('/', authMiddleware, rbacMiddleware('Admin'), gameController.createGame);
 
 /**
  * @swagger
@@ -110,7 +110,7 @@ router.get('/:id', gameController.getGameById);
  *       404:
  *         description: Game not found
  */
-router.put('/:id', authMiddleware, gameController.updateGame);
+router.put('/:id', authMiddleware, rbacMiddleware('Admin'), gameController.updateGame);
 
 /**
  * @swagger
@@ -131,6 +131,6 @@ router.put('/:id', authMiddleware, gameController.updateGame);
  *       404:
  *         description: Game not found
  */
-router.delete('/:id', authMiddleware, gameController.deleteGame);
+router.delete('/:id', authMiddleware, rbacMiddleware('Admin'), gameController.deleteGame);
 
 module.exports = router;
