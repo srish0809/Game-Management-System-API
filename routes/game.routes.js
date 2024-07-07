@@ -1,6 +1,7 @@
-const express = require('express');
-const gameController = require('../controllers/game.controller');
-const authMiddleware = require('../middleware/auth.middleware');
+const express = require("express");
+const gameController = require("../controllers/game.controller");
+const authMiddleware = require("../middleware/auth.middleware");
+const rbacMiddleware = require("../middleware/rbac.middleware");
 const router = express.Router();
 
 /**
@@ -40,7 +41,12 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', authMiddleware, rbacMiddleware('Admin'), gameController.createGame);
+router.post(
+  "/",
+  authMiddleware,
+  rbacMiddleware("Admin"),
+  gameController.createGame
+);
 
 /**
  * @swagger
@@ -54,7 +60,7 @@ router.post('/', authMiddleware, rbacMiddleware('Admin'), gameController.createG
  *       500:
  *         description: Internal server error
  */
-router.get('/', gameController.getAllGames);
+router.get("/", gameController.getAllGames);
 
 /**
  * @swagger
@@ -75,7 +81,7 @@ router.get('/', gameController.getAllGames);
  *       404:
  *         description: Game not found
  */
-router.get('/:id', gameController.getGameById);
+router.get("/:id", gameController.getGameById);
 
 /**
  * @swagger
@@ -110,7 +116,12 @@ router.get('/:id', gameController.getGameById);
  *       404:
  *         description: Game not found
  */
-router.put('/:id', authMiddleware, rbacMiddleware('Admin'), gameController.updateGame);
+router.put(
+  "/:id",
+  authMiddleware,
+  rbacMiddleware("Admin"),
+  gameController.updateGame
+);
 
 /**
  * @swagger
@@ -131,6 +142,11 @@ router.put('/:id', authMiddleware, rbacMiddleware('Admin'), gameController.updat
  *       404:
  *         description: Game not found
  */
-router.delete('/:id', authMiddleware, rbacMiddleware('Admin'), gameController.deleteGame);
+router.delete(
+  "/:id",
+  authMiddleware,
+  rbacMiddleware("Admin"),
+  gameController.deleteGame
+);
 
 module.exports = router;

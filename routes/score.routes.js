@@ -40,7 +40,7 @@ const router = express.Router();
  *       400:
  *         description: Bad request
  */
-router.post('/', authMiddleware, rbacMiddleware('Player'), addScore);
+router.post('/', authMiddleware, rbacMiddleware('Player'), scoreController.addScore);
 
 /**
  * @swagger
