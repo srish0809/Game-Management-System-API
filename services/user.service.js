@@ -10,6 +10,10 @@ const registerUser = async ({ username, email, password, role }) => {
       throw new Error("Please provide all fields!!");
     }
 
+    if (!["Player", "Admin"].includes(role)) {
+      throw new Error("Role must be either 'Player' or 'Admin'");
+    }
+
     const existingUser = await userModel.findUserByEmail(email);
     if (existingUser) {
       throw new Error("User with this email ID already exists");
