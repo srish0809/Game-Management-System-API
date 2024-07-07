@@ -7,7 +7,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 const registerUser = async ({ username, email, password, role }) => {
   try {
     if (!username || !email || !password || !role) {
-      throw new Error("Username, email, password, and role are required");
+      throw new Error("Please provide all fields!!");
     }
 
     const existingUser = await userModel.findUserByEmail(email);
@@ -26,30 +26,37 @@ const registerUser = async ({ username, email, password, role }) => {
 
     return user;
   } catch (error) {
-    return { error: `Could not create user: ${error.message}` };
+    throw new Error(`Could not create user: ${error.message}`);
   }
 };
 
-
 const loginUser = async ({ email, password }) => {
-  const user = await userModel.findUserByEmail(email);
-  if (user && (await bcrypt.compare(password, user.password))) {
+  try {
+    const user = await userModel.findUserByEmail(email);
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new Error("Invalid email or password");
+    }
+
     const token = jwt.sign({ userId: user.id, role: user.role }, SECRET_KEY, {
       expiresIn: "1h",
     });
     return { token };
-  } else {
-    throw new Error("Invalid email or password");
+  } catch (error) {
+    throw new Error(`Login failed: ${error.message}`);
   }
 };
 
 const getUserProfile = async (userId) => {
-  const userDetails = await userModel.findUserById(userId);
-  const { password, ...user } = userDetails;
-  if (!user) {
-    throw new Error("User not found");
+  try {
+    const userDetails = await userModel.findUserById(userId);
+    if (!userDetails) {
+      throw new Error("User not found");
+    }
+    const { password, ...user } = userDetails;
+    return user;
+  } catch (error) {
+    throw new Error(`Failed to fetch user profile: ${error.message}`);
   }
-  return user;
 };
 
 module.exports = {

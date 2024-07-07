@@ -13,8 +13,6 @@ const app = express();
 
 app.use(express.json());
 
-app.use(loggerMiddleware);
-
 app.use("/users", userRoutes);
 app.use("/games", gameRoutes);
 app.use("/scores", scoreRoutes);
@@ -22,6 +20,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(errorMiddleware);
 app.use(rbacMiddleware);
+app.use(loggerMiddleware);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

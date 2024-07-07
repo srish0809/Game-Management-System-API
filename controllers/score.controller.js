@@ -1,29 +1,29 @@
-const scoreService = require('../services/score.service');
+const scoreService = require("../services/score.service");
 
-const addScore = async (req, res) => {
+const addScore = async (req, res, next) => {
   try {
     const score = await scoreService.addScore(req.body);
     res.status(201).json(score);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-const getScoresByUser = async (req, res) => {
+const getScoresByUser = async (req, res, next) => {
   try {
     const scores = await scoreService.getScoresByUser(req.params.userId);
     res.json(scores);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
-const getScoresByGame = async (req, res) => {
+const getScoresByGame = async (req, res, next) => {
   try {
     const scores = await scoreService.getScoresByGame(req.params.gameId);
     res.json(scores);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
