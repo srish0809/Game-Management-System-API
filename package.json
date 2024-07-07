@@ -8,7 +8,7 @@
     "start": "node app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Srashti Soni",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.16.1",

@@ -1,4 +1,4 @@
-const gameService = require('../services/game.service');
+const gameService = require("../services/game.service");
 
 const createGame = async (req, res) => {
   try {
@@ -11,7 +11,11 @@ const createGame = async (req, res) => {
 
 const getAllGames = async (req, res) => {
   try {
-    const games = await gameService.getAllGames();
+    const { page = 1, pageSize = 10 } = req.query;
+    const games = await gameService.getAllGames(
+      parseInt(page),
+      parseInt(pageSize)
+    );
     res.json(games);
   } catch (error) {
     res.status(500).json({ error: error.message });

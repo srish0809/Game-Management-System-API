@@ -5,8 +5,8 @@ const createGame = async (gameData) => {
   return gameModel.createGame(gameData);
 };
 
-const getAllGames = async () => {
-  return gameModel.getAllGames();
+const getAllGames = async (page, limit) => {
+  return gameModel.getAllGames(page, limit);
 };
 
 const getGameById = async (id) => {

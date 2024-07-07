@@ -54,6 +54,19 @@ router.post(
  *   get:
  *     summary: Get all games
  *     tags: [Games]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number (optional)
+ *       - in: query
+ *         name: pageSize
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of games per page (optional)
  *     responses:
  *       200:
  *         description: List of all games

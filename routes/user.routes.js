@@ -31,6 +31,8 @@ const router = express.Router();
  *                 type: string
  *               role:
  *                 type: string
+ *                 enum: [Admin, Player]
+
  *             required:
  *               - username
  *               - email

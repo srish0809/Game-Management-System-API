@@ -5,19 +5,31 @@ const userModel = require("../models/user.model");
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const registerUser = async ({ username, email, password, role }) => {
-  const hashedPassword = await bcrypt.hash(password, 10);
   try {
+    if (!username || !email || !password || !role) {
+      throw new Error("Username, email, password, and role are required");
+    }
+
+    const existingUser = await userModel.findUserByEmail(email);
+    if (existingUser) {
+      throw new Error("User with this email ID already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await userModel.createUser({
       username,
       email,
       password: hashedPassword,
       role,
     });
+
     return user;
   } catch (error) {
-    throw new Error("User already exists");
+    return { error: `Could not create user: ${error.message}` };
   }
 };
+
 
 const loginUser = async ({ email, password }) => {
   const user = await userModel.findUserByEmail(email);
@@ -32,7 +44,8 @@ const loginUser = async ({ email, password }) => {
 };
 
 const getUserProfile = async (userId) => {
-  const user = await userModel.findUserById(userId);
+  const userDetails = await userModel.findUserById(userId);
+  const { password, ...user } = userDetails;
   if (!user) {
     throw new Error("User not found");
   }
